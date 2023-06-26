@@ -39,18 +39,33 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  ListTile bandTile(Band band) {
-    return ListTile(
-      leading: CircleAvatar(
-        child: Text(band.name.substring(0, 2)),
-        backgroundColor: Colors.blue[100],
+  Widget bandTile(Band band) {
+    return Dismissible(
+      key: Key(band.id),
+      direction: DismissDirection.startToEnd,
+      background: Container(
+        padding: EdgeInsets.only(left: 8.0),
+        color: Colors.red,
+        child: Align(
+          child: Text(
+            "Delete Band",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          ),
+          alignment: Alignment.centerLeft,
+        ),
       ),
-      title: Text(band.name),
-      trailing: Text(
-        "${band.votes}",
-        style: TextStyle(fontSize: 20),
+      child: ListTile(
+        leading: CircleAvatar(
+          child: Text(band.name.substring(0, 2)),
+          backgroundColor: Colors.blue[100],
+        ),
+        title: Text(band.name),
+        trailing: Text(
+          "${band.votes}",
+          style: TextStyle(fontSize: 20),
+        ),
+        onTap: () {},
       ),
-      onTap: () {},
     );
   }
 
