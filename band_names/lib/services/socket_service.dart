@@ -41,5 +41,9 @@ class SocketService with ChangeNotifier {
       print('Desconectado del Socket Server');
       notifyListeners();
     });
+
+    this._socket.on("nuevo-mensaje", (payload) {
+      print('nuevo-mensaje $payload');
+    });
   }
 }
