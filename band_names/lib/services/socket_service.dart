@@ -43,9 +43,3 @@ class SocketService with ChangeNotifier {
     });
   }
 }
-
-
-    // IO.Socket socket = IO.io('http://192.168.100.18:3001', {
-    //   'transports': ['websocket'],
-    //   'autoConnect': true
-    // });

@@ -12,7 +12,12 @@ class StatusPage extends StatelessWidget {
     final socketService = Provider.of<SocketService>(context);
     return Scaffold(
       body: Center(
-        child: Text("StatusPage"),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Status server ${socketService.serverStatus}"),
+          ],
+        ),
       ),
     );
   }
