@@ -1,4 +1,5 @@
 import 'package:band_names/pages/home.dart';
+import 'package:band_names/pages/startus.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
@@ -20,8 +21,9 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         'home': (context) => HomePage(),
+        'status': (context) => StatusPage()
       },
-      initialRoute: "home",
+      initialRoute: "status",
     );
   }
 }
