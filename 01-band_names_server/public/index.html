@@ -22,7 +22,7 @@
         });
 
         client.emit("mensage", { nombre: 'Holalala' });
-        client.on("mensage", function (payload) {
+        client.on("nuevo-mensaje", function (payload) {
             console.log("Escuchando", payload);
         });
     </script>

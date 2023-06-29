@@ -14,6 +14,7 @@ io.on("connection", client => {
     });
 
     client.on("emitir-mensaje", (payload) => {
+        //console.log(payload);
         //io.emit("nuevo-mensaje", payload); emite a todos incluyendo a quien lo emitio
         client.broadcast.emit("nuevo-mensaje", payload);
     });
