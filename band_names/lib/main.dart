@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           'home': (context) => HomePage(),
           'status': (context) => StatusPage()
         },
-        initialRoute: "status",
+        initialRoute: "home",
       ),
     );
   }
