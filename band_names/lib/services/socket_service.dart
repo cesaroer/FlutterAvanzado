@@ -18,7 +18,9 @@ class SocketService with ChangeNotifier {
   }
 
   void _initConfig() {
-    String urlSocket = 'http://192.168.100.18:3001';
+    //String urlSocket = 'http://192.168.100.18:3001';
+
+    String urlSocket = 'https://band-socket-server-e84w.onrender.com';
 
     this._socket = IO.io(
         urlSocket,
