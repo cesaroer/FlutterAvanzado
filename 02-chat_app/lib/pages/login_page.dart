@@ -1,4 +1,6 @@
 import 'package:chat_app/widgets/custom_input.dart';
+import 'package:chat_app/widgets/labels.dart';
+import 'package:chat_app/widgets/logo.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -10,36 +12,14 @@ class LoginPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _Logo(),
+              Logo(),
               _Form(),
-              _Labels(),
+              Labels(),
               Text("Terminos y condiciones de uso",
                   style: TextStyle(fontWeight: FontWeight.w200)),
             ],
           ),
         ));
-  }
-}
-
-class _Logo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        margin: EdgeInsets.only(top: 50),
-        width: 170,
-        child: Column(
-          children: [
-            Image(image: AssetImage("assets/tag-logo.png")),
-            SizedBox(height: 20),
-            Text(
-              "Messenger",
-              style: TextStyle(fontSize: 30),
-            )
-          ],
-        ),
-      ),
-    );
   }
 }
 
@@ -49,6 +29,10 @@ class _Form extends StatefulWidget {
 }
 
 class __FormState extends State<_Form> {
+  final emailCtrl = TextEditingController();
+
+  final passCtrl = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,33 +40,18 @@ class __FormState extends State<_Form> {
       padding: EdgeInsets.symmetric(horizontal: 50),
       child: Column(
         children: [
-          CustomInput(),
-          CustomInput(),
-        ],
-      ),
-    );
-  }
-}
-
-class _Labels extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Text("No tienes cuenta?",
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 15,
-                fontWeight: FontWeight.w300,
-              )),
-          SizedBox(height: 10),
-          Text("Crea una ahora!",
-              style: TextStyle(
-                color: Colors.blue[600],
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              )),
+          CustomInput(
+            icon: Icons.mail_outline,
+            placeHolder: "Email",
+            textController: emailCtrl,
+            keyboardType: TextInputType.emailAddress,
+          ),
+          CustomInput(
+            icon: Icons.lock_outline,
+            placeHolder: "Contraseña",
+            textController: passCtrl,
+            isPassword: true,
+          )
         ],
       ),
     );
