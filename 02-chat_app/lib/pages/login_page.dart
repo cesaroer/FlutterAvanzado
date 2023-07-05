@@ -1,3 +1,4 @@
+import 'package:chat_app/widgets/blue_btn.dart';
 import 'package:chat_app/widgets/custom_input.dart';
 import 'package:chat_app/widgets/labels.dart';
 import 'package:chat_app/widgets/logo.dart';
@@ -51,7 +52,14 @@ class __FormState extends State<_Form> {
             placeHolder: "Contraseña",
             textController: passCtrl,
             isPassword: true,
-          )
+          ),
+          BlueButton(
+            text: "Login",
+            onPressed: () {
+              print(emailCtrl.text);
+              print(passCtrl.text);
+            },
+          ),
         ],
       ),
     );
