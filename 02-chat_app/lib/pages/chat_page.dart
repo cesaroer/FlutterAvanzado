@@ -11,6 +11,7 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final _textController = TextEditingController();
   final _focusNode = FocusNode();
+  bool _isWriting = false;
 
   @override
   Widget build(BuildContext context) {
@@ -70,21 +71,40 @@ class _ChatPageState extends State<ChatPage> {
               child: TextField(
                 controller: _textController,
                 onSubmitted: _handleSubmit,
-                onChanged: (text) {},
+                onChanged: (text) {
+                  setState(() {
+                    if (text.trim().length > 0) {
+                      _isWriting = true;
+                    } else {
+                      _isWriting = false;
+                    }
+                  });
+                },
                 decoration:
-                    InputDecoration.collapsed(hintText: "Enviar mensaje"),
+                    const InputDecoration.collapsed(hintText: "Enviar mensaje"),
                 focusNode: _focusNode,
               ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 4.0),
               child: !Platform.isIOS
-                  ? CupertinoButton(child: Text("Send"), onPressed: () {})
+                  ? CupertinoButton(
+                      onPressed: _isWriting
+                          ? () => _handleSubmit(_textController.text.trim())
+                          : null,
+                      child: const Text("Send"),
+                    )
                   : Container(
                       margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.send, color: Colors.blue),
+                      child: IconTheme(
+                        data: const IconThemeData(color: Colors.blue),
+                        child: IconButton(
+                          highlightColor: Colors.transparent,
+                          onPressed: _isWriting
+                              ? () => _handleSubmit(_textController.text.trim())
+                              : null,
+                          icon: const Icon(Icons.send),
+                        ),
                       ),
                     ),
             )
@@ -95,8 +115,10 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   _handleSubmit(String text) {
-    print(text);
     _textController.clear();
     _focusNode.requestFocus();
+    setState(() {
+      _isWriting = false;
+    });
   }
 }
