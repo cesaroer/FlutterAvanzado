@@ -130,7 +130,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
       text: text,
       uuid: "123",
       animationController: AnimationController(
-          vsync: this, duration: Duration(milliseconds: 200)),
+          vsync: this, duration: const Duration(milliseconds: 200)),
     );
 
     newMessage.animationController.forward();
@@ -139,5 +139,13 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
       _isWriting = false;
       _messages.insert(0, newMessage);
     });
+  }
+
+  @override
+  void dispose() {
+    _messages.forEach((element) {
+      element.animationController.dispose();
+    });
+    super.dispose();
   }
 }
