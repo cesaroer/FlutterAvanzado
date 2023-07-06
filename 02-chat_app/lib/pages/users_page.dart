@@ -1,5 +1,6 @@
 import 'package:chat_app/models/usuario.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UsersPage extends StatefulWidget {
   @override
@@ -7,6 +8,9 @@ class UsersPage extends StatefulWidget {
 }
 
 class _UsersPageState extends State<UsersPage> {
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
   final users = [
     User(name: "User 1", online: true, email: "uno@gmail.com", uuid: "1"),
     User(name: "User 2", online: false, email: "dos@gmail.com", uuid: "2"),
@@ -18,50 +22,79 @@ class _UsersPageState extends State<UsersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "My name",
-            style: TextStyle(color: Colors.black54),
-          ),
-          elevation: 1,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.exit_to_app,
-              color: Colors.black54,
-            ),
-          ),
-          actions: [
-            Container(
-              margin: EdgeInsets.only(right: 10),
-              //child: Icon(Icons.check_circle, color: Colors.blue),
-              child: Icon(Icons.offline_bolt, color: Colors.red),
-            )
-          ],
+      appBar: AppBar(
+        title: Text(
+          "My name",
+          style: TextStyle(color: Colors.black54),
         ),
-        body: ListView.separated(
-          physics: const BouncingScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(users[index].name),
-              leading: CircleAvatar(
-                child: Text(users[index].name.substring(0, 2)),
-              ),
-              trailing: Container(
-                width: 10,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: users[index].online ? Colors.green : Colors.red,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-              ),
-            );
-          },
-          itemCount: users.length,
-          separatorBuilder: (BuildContext context, int index) {
-            return Divider();
-          },
-        ));
+        elevation: 1,
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {},
+          icon: Icon(
+            Icons.exit_to_app,
+            color: Colors.black54,
+          ),
+        ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            //child: Icon(Icons.check_circle, color: Colors.blue),
+            child: const Icon(Icons.offline_bolt, color: Colors.red),
+          )
+        ],
+      ),
+      body: SmartRefresher(
+        controller: _refreshController,
+        enablePullDown: true,
+        onRefresh: _cargarUsuarios,
+        header: WaterDropHeader(
+          waterDropColor: Colors.blue,
+          complete: Icon(
+            Icons.check,
+            color: Colors.blue,
+          ),
+        ),
+        child: _usersListView(),
+      ),
+    );
+  }
+
+  ListView _usersListView() {
+    return ListView.separated(
+      physics: const BouncingScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return _userListView(users[index]);
+      },
+      itemCount: users.length,
+      separatorBuilder: (BuildContext context, int index) {
+        return Divider();
+      },
+    );
+  }
+
+  ListTile _userListView(User user) {
+    return ListTile(
+      title: Text(user.name),
+      subtitle: Text(user.email),
+      leading: CircleAvatar(
+        child: Text(user.name.substring(0, 2)),
+      ),
+      trailing: Container(
+        width: 10,
+        height: 10,
+        decoration: BoxDecoration(
+          color: user.online ? Colors.green : Colors.red,
+          borderRadius: BorderRadius.circular(100),
+        ),
+      ),
+    );
+  }
+
+  _cargarUsuarios() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+    _refreshController.refreshCompleted();
   }
 }
