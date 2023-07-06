@@ -4,6 +4,12 @@ require('dotenv').config();
 //const { errorMonitor } = require("events");
 //Se instancia el express
 const express = require('express');
+
+// DB config
+const { dbConnection } = require("./database/config");
+dbConnection();
+
+
 const app = express();
 
 //se importa la lib del path
