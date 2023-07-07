@@ -12,6 +12,9 @@ dbConnection();
 
 const app = express();
 
+// Lectura y parseo del body
+app.use(express.json());
+
 //se importa la lib del path
 const path = require('path');
 
@@ -25,6 +28,9 @@ require("./sockets/socket.js");
 //path publico
 const publicPath = path.resolve(__dirname, 'public');
 app.use(express.static(publicPath));
+
+// My routes
+app.use("/api/login", require("./routes/auth"));
 
 
 //listen server in port
