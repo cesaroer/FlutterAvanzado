@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongose");
+const { Schema, model } = require("mongoose");
 
 const UsuarioScquema = Schema({
     nombre: {
@@ -18,6 +18,12 @@ const UsuarioScquema = Schema({
         type: Boolean,
         default: false,
     },
-})
+});
+
+UsuarioScquema.method("toJSON", function () {
+    const { __v, _id, password, ...object } = this.toObject();
+    object.UUID = _id;
+    return object;
+});
 
 module.exports = model("Usuario", UsuarioScquema);
