@@ -90,11 +90,17 @@ const login = async (req, resp = response) => {
 }
 
 const renewToken = async (req, res = response) => {
+
+    const uid = req.uid;
+    const token = await generarJWT(uid);
+    const usuario = await Usuario.findById(uid);
+
     res.json({
         ok: true,
         body: {
             msg: "Renewed",
-            uid: req.uid
+            user: usuario,
+            token: token
         }
     });
 }
