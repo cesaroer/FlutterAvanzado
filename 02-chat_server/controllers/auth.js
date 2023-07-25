@@ -87,13 +87,22 @@ const login = async (req, resp = response) => {
         });
     }
 
+}
 
-
+const renewToken = async (req, res = response) => {
+    res.json({
+        ok: true,
+        body: {
+            msg: "Renewed",
+            uid: req.uid
+        }
+    });
 }
 
 
 
 module.exports = {
     crearUsuario,
-    login
+    login,
+    renewToken
 }
