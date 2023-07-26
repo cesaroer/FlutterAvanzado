@@ -7,8 +7,18 @@ import 'package:http/http.dart' as http;
 
 class AuthService with ChangeNotifier {
   late Usuario usuario;
+  bool _authenticating = false;
+
+  bool get authenticating => _authenticating;
+
+  set authenticating(bool v) {
+    this._authenticating = v;
+    notifyListeners();
+  }
 
   Future login(String email, String password) async {
+    this.authenticating = true;
+
     final data = {
       "email": email,
       "password": password,
@@ -24,5 +34,7 @@ class AuthService with ChangeNotifier {
       this.usuario = response.body.usuarioDb;
       print(this.usuario.toJson());
     }
+
+    this.authenticating = false;
   }
 }
