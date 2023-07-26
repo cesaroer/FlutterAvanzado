@@ -12,11 +12,13 @@ class _UsersPageState extends State<UsersPage> {
       RefreshController(initialRefresh: false);
 
   final users = [
-    User(name: "User 1", online: true, email: "uno@gmail.com", uuid: "1"),
-    User(name: "User 2", online: false, email: "dos@gmail.com", uuid: "2"),
-    User(name: "User 3", online: true, email: "tres@gmail.com", uuid: "3"),
-    User(name: "User 4", online: false, email: "cuatro@gmail.com", uuid: "4"),
-    User(name: "User 5", online: true, email: "cinco@gmail.com", uuid: "5"),
+    Usuario(nombre: "User 1", online: true, email: "uno@gmail.com", uuid: "1"),
+    Usuario(nombre: "User 2", online: false, email: "dos@gmail.com", uuid: "2"),
+    Usuario(nombre: "User 3", online: true, email: "tres@gmail.com", uuid: "3"),
+    Usuario(
+        nombre: "User 4", online: false, email: "cuatro@gmail.com", uuid: "4"),
+    Usuario(
+        nombre: "User 5", online: true, email: "cinco@gmail.com", uuid: "5"),
   ];
 
   @override
@@ -73,12 +75,12 @@ class _UsersPageState extends State<UsersPage> {
     );
   }
 
-  ListTile _userListView(User user) {
+  ListTile _userListView(Usuario user) {
     return ListTile(
-      title: Text(user.name),
+      title: Text(user.nombre),
       subtitle: Text(user.email),
       leading: CircleAvatar(
-        child: Text(user.name.substring(0, 2)),
+        child: Text(user.nombre.substring(0, 2)),
       ),
       trailing: Container(
         width: 10,
