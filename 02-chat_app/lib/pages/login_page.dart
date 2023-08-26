@@ -1,3 +1,4 @@
+import 'package:chat_app/helpers/mostrar_alert.dart';
 import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/widgets/blue_btn.dart';
 import 'package:chat_app/widgets/custom_input.dart';
@@ -72,10 +73,18 @@ class __FormState extends State<_Form> {
             text: "Login",
             onPressed: authService.authenticating
                 ? null
-                : () {
+                : () async {
                     FocusScope.of(context).unfocus();
-                    authService.login(
+                    final loginOk = await authService.login(
                         emailCtrl.text.trim(), passCtrl.text.trim());
+                    if (loginOk) {
+                    } else {
+                      const mostrarAlerta(
+                        context,
+                        "Login Incorrecto",
+                        "Revise sus credenciales nuevamente",
+                      );
+                    }
                   },
           ),
         ],
