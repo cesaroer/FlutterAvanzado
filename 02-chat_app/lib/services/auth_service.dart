@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:chat_app/global/environment.dart';
 import 'package:chat_app/models/login_response.dart';
 import 'package:chat_app/models/register_response.dart';
+import 'package:chat_app/models/renew_response.dart';
 import 'package:chat_app/models/usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -83,6 +84,30 @@ class AuthService with ChangeNotifier {
     } else {
       final respBody = jsonDecode(resp.body);
       return respBody["msg"];
+    }
+  }
+
+  Future<bool> isLoggedIn() async {
+    final token = await this._storage.read(key: "token");
+
+    Uri uri = Uri.parse("${Environment.apiUrl}/login/renew");
+    final resp = await http.get(uri, headers: {
+      'Content-Type': "application/json",
+      "x-token": token!,
+    });
+
+    if (resp.statusCode == 200) {
+      print(resp.body);
+
+      final response = renewReponseFromJson(resp.body);
+      this.usuario = response.body.user;
+      await logout();
+      await _guardarToken(response.body.token);
+
+      return true;
+    } else {
+      this.logout();
+      return false;
     }
   }
 
