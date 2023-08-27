@@ -1,3 +1,4 @@
+import 'package:chat_app/pages/login_page.dart';
 import 'package:chat_app/pages/users_page.dart';
 import 'package:chat_app/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,14 @@ Future checkLoginState(BuildContext context) async {
       ),
     );
   } else {
-    Navigator.pushReplacementNamed(context, "login");
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secondaryAnimation) {
+          return LoginPage();
+        },
+      ),
+    );
   }
 }
