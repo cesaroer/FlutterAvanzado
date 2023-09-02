@@ -1,6 +1,7 @@
 const { io } = require("../index");
 const Bands = require('../models/bands');
 const Band = require('../models/band');
+const { comprobateJWT } = require("../helpers/jwt");
 
 const bands = new Bands();
 
@@ -14,8 +15,13 @@ bands.addBand(new Band("Metallika"));
 io.on("connection", client => {
     console.log('Cliente conectado :D');
 
-    client.emit("active-bands", bands.getBands());
+    const [valid, uid] = comprobateJWT(client.handshake.headers["x-token"])
 
+    if (!valid) {
+        return client.disconnect();
+    }
+
+    console.log("Cliente Valido : ", valid, " Con uid ", uid);
 
     client.on('disconnect', () => {
         console.log('Cliente desconectado :(');
