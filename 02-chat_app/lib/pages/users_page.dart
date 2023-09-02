@@ -52,10 +52,10 @@ class _UsersPageState extends State<UsersPage> {
         ),
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 10),
-            //child: Icon(Icons.check_circle, color: Colors.blue),
-            child: const Icon(Icons.offline_bolt, color: Colors.red),
-          )
+              margin: const EdgeInsets.only(right: 10),
+              child: (socketService.serverStatus != ServerStatus.Online)
+                  ? Icon(Icons.offline_bolt, color: Colors.red)
+                  : Icon(Icons.check_circle, color: Colors.blue))
         ],
       ),
       body: SmartRefresher(
