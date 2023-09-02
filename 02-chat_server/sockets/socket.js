@@ -2,6 +2,7 @@ const { io } = require("../index");
 const Bands = require('../models/bands');
 const Band = require('../models/band');
 const { comprobateJWT } = require("../helpers/jwt");
+const { usrConnected, usrDissconnected } = require("../controllers/socket");
 
 const bands = new Bands();
 
@@ -21,10 +22,13 @@ io.on("connection", client => {
         return client.disconnect();
     }
 
+    usrConnected(uid);
+
     console.log("Cliente Valido : ", valid, " Con uid ", uid);
 
     client.on('disconnect', () => {
         console.log('Cliente desconectado :(');
+        usrDissconnected(uid);
     });
 
     client.on("mensage", (payload) => {
