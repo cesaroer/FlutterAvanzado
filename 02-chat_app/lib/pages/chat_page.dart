@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:chat_app/services/chat_service.dart';
 import 'package:chat_app/widgets/chat_messaje.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ChatPage extends StatefulWidget {
   @override
@@ -18,6 +20,8 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final chatService = Provider.of<ChatService>(context);
+    final user = chatService.chatUser;
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -28,13 +32,13 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
               maxRadius: 14,
               backgroundColor: Colors.blueAccent,
               child: Text(
-                "TE",
+                user.nombre.substring(0, 2),
                 style: TextStyle(fontSize: 12),
               ),
             ),
             SizedBox(height: 3),
             Text(
-              "Test User",
+              user.nombre,
               style: TextStyle(fontSize: 12, color: Colors.black87),
             ),
           ],
