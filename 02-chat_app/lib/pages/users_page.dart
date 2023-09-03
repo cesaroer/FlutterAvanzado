@@ -1,5 +1,6 @@
 import 'package:chat_app/models/usuario.dart';
 import 'package:chat_app/services/auth_service.dart';
+import 'package:chat_app/services/users_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -15,15 +16,25 @@ class _UsersPageState extends State<UsersPage> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  final users = [
-    Usuario(nombre: "User 1", online: true, email: "uno@gmail.com", uuid: "1"),
-    Usuario(nombre: "User 2", online: false, email: "dos@gmail.com", uuid: "2"),
-    Usuario(nombre: "User 3", online: true, email: "tres@gmail.com", uuid: "3"),
-    Usuario(
-        nombre: "User 4", online: false, email: "cuatro@gmail.com", uuid: "4"),
-    Usuario(
-        nombre: "User 5", online: true, email: "cinco@gmail.com", uuid: "5"),
-  ];
+  List<Usuario> users = [];
+
+  // final users = [
+  //   Usuario(nombre: "User 1", online: true, email: "uno@gmail.com", uuid: "1"),
+  //   Usuario(nombre: "User 2", online: false, email: "dos@gmail.com", uuid: "2"),
+  //   Usuario(nombre: "User 3", online: true, email: "tres@gmail.com", uuid: "3"),
+  //   Usuario(
+  //       nombre: "User 4", online: false, email: "cuatro@gmail.com", uuid: "4"),
+  //   Usuario(
+  //       nombre: "User 5", online: true, email: "cinco@gmail.com", uuid: "5"),
+  // ];
+
+  final userService = UsersService();
+
+  @override
+  void initState() {
+    this._cargarUsuarios();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,8 +118,10 @@ class _UsersPageState extends State<UsersPage> {
 
   _cargarUsuarios() async {
     // monitor network fetch
-    await Future.delayed(Duration(milliseconds: 1000));
-    // if failed,use refreshFailed()
+    // await Future.delayed(Duration(milliseconds: 1000));
+    this.users = await userService.getUsuarios();
+    setState(() {});
+
     _refreshController.refreshCompleted();
   }
 }
