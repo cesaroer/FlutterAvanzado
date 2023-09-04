@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/services/chat_service.dart';
+import 'package:chat_app/services/socket_service.dart';
 import 'package:chat_app/widgets/chat_messaje.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,12 +17,22 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
   final _textController = TextEditingController();
   final _focusNode = FocusNode();
   bool _isWriting = false;
+  late ChatService chatService;
+  late SocketService socketService;
+  late AuthService authService;
+  List<ChatMessage> _messages = [];
 
-  final List<ChatMessage> _messages = [];
+  @override
+  void initState() {
+    chatService = Provider.of<ChatService>(context, listen: false);
+    socketService = Provider.of<SocketService>(context, listen: false);
+    authService = Provider.of<AuthService>(context, listen: false);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final chatService = Provider.of<ChatService>(context);
     final user = chatService.chatUser;
     return Scaffold(
       appBar: AppBar(
@@ -142,6 +154,12 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
     setState(() {
       _isWriting = false;
       _messages.insert(0, newMessage);
+    });
+
+    socketService.socket.emit('mensaje-personal', {
+      'de': authService.usuario.uuid,
+      'para': chatService.chatUser.uuid,
+      'mensaje': text
     });
   }
 
