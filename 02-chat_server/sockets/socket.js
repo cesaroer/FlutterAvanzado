@@ -32,6 +32,7 @@ io.on("connection", client => {
 
     client.on("mensaje-personal", (payload) => {
         console.log("mensaje ", payload);
+        io.to(payload.para).emit("mensaje-personal", payload);
     });
 
     client.on('disconnect', () => {
