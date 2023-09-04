@@ -2,7 +2,7 @@ const { io } = require("../index");
 const Bands = require('../models/bands');
 const Band = require('../models/band');
 const { comprobateJWT } = require("../helpers/jwt");
-const { usrConnected, usrDissconnected } = require("../controllers/socket");
+const { usrConnected, usrDissconnected, recordMessaje } = require("../controllers/socket");
 
 const bands = new Bands();
 
@@ -30,8 +30,8 @@ io.on("connection", client => {
 
     console.log("Cliente Valido : ", valid, " Con uid ", uid);
 
-    client.on("mensaje-personal", (payload) => {
-        console.log("mensaje ", payload);
+    client.on("mensaje-personal", async (payload) => {
+        await recordMessaje(payload);
         io.to(payload.para).emit("mensaje-personal", payload);
     });
 
